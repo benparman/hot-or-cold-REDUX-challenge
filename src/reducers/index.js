@@ -7,7 +7,7 @@ const initialState={
   correctAnswer: Math.floor(Math.random() * 100) + 1
 }
 
-export const gameReducer = (state=initialState, action) => {
+export default (state=initialState, action) => {
   if(action.type === RESTART_GAME) {
     return Object.assign({}, state, {
       guesses: [],
@@ -16,34 +16,38 @@ export const gameReducer = (state=initialState, action) => {
       correctAnswer: Math.floor(Math.random() * 100) + 1
     })
   }
-  if(action.type === MAKE_GUESS) {
-    let guess = parseInt(action.guess, 10);
+  if (action.type === MAKE_GUESS) {
+    let feedback, guess;
 
+    guess = parseInt(action.guess, 10);
     if (isNaN(guess)) {
-      let feedback = 'Please enter a valid number'
-    
-    return Object.assign({}, state, {
-      guesses: [...state.guesses, guess],
-      feedback
-    });
-  }
-    const difference = Math.abs(guess - this.state.correctAnswer);
-    if (difference >= 50) {
-      feedback = 'You\'re Ice Cold...';
-    } else if (difference >= 30) {
-      feedback = 'You\'re Cold...';
-    } else if (difference >= 10) {
-      feedback = 'You\'re Warm.';
-    } else if (difference >= 1) {
-      feedback = 'You\'re Hot!';
-    } else {
-      feedback = 'You got it!';
+        feedback = 'Please enter a valid number.';
+
+        return Object.assign({}, state, {
+            feedback,
+            guesses: [...state.guesses, guess]
+        });
     }
+
+    const difference = Math.abs(guess - state.correctAnswer);
+
+    if (difference >= 50) {
+        feedback = "You're Ice Cold...";
+    } else if (difference >= 30) {
+        feedback = "You're Cold...";
+    } else if (difference >= 10) {
+        feedback = "You're Warm.";
+    } else if (difference >= 1) {
+        feedback = "You're Hot!";
+    } else {
+        feedback = 'You got it!';
+    }
+
     return Object.assign({}, state, {
-      guesses: [...state.guesses, guess],
-      feedback
+        feedback,
+        guesses: [...state.guesses, guess]
     });
-  }
+}
   if(action.type === GENERATE_AURAL_UPDATE) {
     const { guesses, feedback } = this.state;
   // If there's not exactly 1 guess, we want to
@@ -54,7 +58,7 @@ export const gameReducer = (state=initialState, action) => {
     if (guesses.length > 0) {
       auralStatus = auralStatus + ` ${pluralize ? 'In order of most- to least-recent, they are' : 'It was'}: ${guesses.reverse().join(', ')}`;
     }
-    return Object.assign({}. state,{
+    return Object.assign({}, state,{
         auralStatus
       })
     }
