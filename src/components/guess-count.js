@@ -15,7 +15,7 @@ export function GuessCount(props) {
 }
 
 const mapStateToProps = state => ({
-  guessCount: state.guessCount
+  guessCount: state.guessCount.length
 })
 
 export default connect(mapStateToProps)(GuessCount)
