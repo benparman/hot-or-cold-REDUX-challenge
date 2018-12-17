@@ -7,7 +7,7 @@ const initialState={
   correctAnswer: Math.floor(Math.random() * 100) + 1
 }
 
-export default (state=initialState, action) => {
+const gameReducer = (state=initialState, action) => {
   if(action.type === RESTART_GAME) {
     return Object.assign({}, state, {
       guesses: [],
@@ -64,3 +64,5 @@ export default (state=initialState, action) => {
     }
   return state;
 }
+
+export default gameReducer;
